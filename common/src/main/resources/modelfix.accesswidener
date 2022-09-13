@@ -1,0 +1,5 @@
+accessWidener   v2  named
+
+accessible class net/minecraft/client/renderer/block/model/ItemModelGenerator$Span
+accessible class net/minecraft/client/renderer/block/model/ItemModelGenerator$SpanFacing
+accessible method net/minecraft/client/renderer/block/model/ItemModelGenerator$SpanFacing isHorizontal ()Z
