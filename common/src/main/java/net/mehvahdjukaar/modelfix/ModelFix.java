@@ -11,15 +11,15 @@ public class ModelFix {
     public static final String MOD_ID = "modelfix";
 
     public static float getShrinkRatio() {
-        return 0;
+        return 0.0f;
     }
 
     public static float getRecess() {
-        return 0.006f;// 0.0045f;//0.019f;//0.0055f;
+        return 0.007f;// 0.0045f;//0.019f;//0.0055f;
     }
 
     public static float getExpansion() {
-        return 0.006f;//0.013f;//0.008f;//0.011f;
+        return 0.007f;//0.013f;//0.008f;//0.011f;
     }
 
     public static void createOrExpandSpan(List<ItemModelGenerator.Span> listSpans, ItemModelGenerator.SpanFacing spanFacing,
@@ -62,16 +62,16 @@ public class ModelFix {
                         to.set(to.x() + inc2, to.y() - inc, to.z() + inc2);
                     }
                     case DOWN -> {
-                        from.set(from.x()- inc2, from.y() + inc, from.z() - inc2);
-                        to.set(to.x()+inc2, to.y() + inc, to.z() + inc2);
+                        from.set(from.x() - inc2, from.y() + inc, from.z() - inc2);
+                        to.set(to.x() + inc2, to.y() + inc, to.z() + inc2);
                     }
                     case WEST -> {
                         from.set(from.x() - inc, from.y() + inc2, from.z() - inc2);
                         to.set(to.x() - inc, to.y() - inc2, to.z() + inc2);
                     }
                     case EAST -> {
-                        from.set(from.x() + inc, from.y()+ inc2, from.z() - inc2);
-                        to.set(to.x() + inc, to.y()- inc2, to.z() + inc2);
+                        from.set(from.x() + inc, from.y() + inc2, from.z() - inc2);
+                        to.set(to.x() + inc, to.y() - inc2, to.z() + inc2);
                     }
                 }
             }

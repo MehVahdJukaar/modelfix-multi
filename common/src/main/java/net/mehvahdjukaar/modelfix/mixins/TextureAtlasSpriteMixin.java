@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class TextureAtlasSpriteMixin {
 
     @Inject(method = "uvShrinkRatio", at = @At("HEAD"), cancellable = true)
-    public void findTarget(CallbackInfoReturnable<Float> cir) {
+    public void cancelShrink(CallbackInfoReturnable<Float> cir) {
         cir.setReturnValue(ModelFix.getShrinkRatio());
     }
 
