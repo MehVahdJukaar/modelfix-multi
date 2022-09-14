@@ -3,3 +3,4 @@ accessWidener   v2  named
 accessible class net/minecraft/client/renderer/block/model/ItemModelGenerator$Span
 accessible class net/minecraft/client/renderer/block/model/ItemModelGenerator$SpanFacing
 accessible method net/minecraft/client/renderer/block/model/ItemModelGenerator$SpanFacing isHorizontal ()Z
+accessible method net/minecraft/client/renderer/entity/ItemRenderer renderQuadList (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Ljava/util/List;Lnet/minecraft/world/item/ItemStack;II)V

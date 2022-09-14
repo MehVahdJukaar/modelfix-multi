@@ -12,9 +12,6 @@ architectury {
 forgix {
     group = "${rootProject.maven_group}.${rootProject.mod_id}"
     mergedJarName = "${rootProject.mod_id}"
-
-    // This should be used to remove a duplicate package
-    removeDuplicate "${rootProject.maven_group}.${rootProject.mod_id}.mixins"
 }
 
 subprojects {
