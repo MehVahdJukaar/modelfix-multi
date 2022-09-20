@@ -1,25 +1,11 @@
 package net.mehvahdjukaar.modelfix;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import dev.architectury.injectables.targets.ArchitecturyTarget;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ModelFix {
@@ -49,7 +35,8 @@ public class ModelFix {
                 int i = spanFacing.isHorizontal() ? pixelY : pixelX;
                 if (span2.getAnchor() != i) continue;
                 //skips faces with transparent pixels so we can enlarge safely
-                if (getExpansion() != 0 && span2.getMax() != (!spanFacing.isHorizontal() ? pixelY : pixelX) - 1) continue;
+                if (getExpansion() != 0 && span2.getMax() != (!spanFacing.isHorizontal() ? pixelY : pixelX) - 1)
+                    continue;
                 existingSpan = span2;
                 break;
             }
@@ -95,25 +82,6 @@ public class ModelFix {
                 }
             }
         }
-    }
-
-    public static void renderGuiItem(ItemRenderer renderer, ItemStack stack, ItemTransforms.TransformType transformType, boolean leftHand,
-                                     PoseStack poseStack, MultiBufferSource buffer, int combinedLight,
-                                     int combinedOverlay, BakedModel model) {
-
-        RandomSource randomSource = RandomSource.create();
-
-        RenderType t = ItemBlockRenderTypes.getRenderType(stack, false);
-        var vertexConsumer = ItemRenderer.getFoilBuffer(buffer, t, true, stack.hasFoil());
-
-
-        randomSource.setSeed(42L);
-        List<BakedQuad> forwardQuads = new ArrayList<>();
-        var quads = model.getQuads(null, null, randomSource);
-        for (BakedQuad quad : quads) {
-            if(quad.getDirection() == Direction.SOUTH)forwardQuads.add(quad);
-        }
-        renderer.renderQuadList(poseStack, vertexConsumer, forwardQuads, stack, combinedLight, combinedOverlay);
     }
 
 }
