@@ -1,9 +1,9 @@
 # Model Gap FIX
 
  
-This is a simple client mod that fixes https://bugs.mojang.com/browse/MC-73186
+ This is a simple client mod that fixes https://bugs.mojang.com/browse/MC-73186
 
-which affects both Block Models and Item Models and possibly other models too
+It affects both Block Models and Item Models and possibly other models too
 
  
 
