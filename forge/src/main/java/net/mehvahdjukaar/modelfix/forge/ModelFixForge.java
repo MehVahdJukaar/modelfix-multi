@@ -1,6 +1,8 @@
 package net.mehvahdjukaar.modelfix.forge;
 
 import net.mehvahdjukaar.modelfix.ModelFix;
+import net.minecraft.client.gui.MapRenderer;
+import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraftforge.fml.common.Mod;
 
 /**
