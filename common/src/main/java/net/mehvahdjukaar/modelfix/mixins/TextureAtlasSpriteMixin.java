@@ -20,7 +20,7 @@ public abstract class TextureAtlasSpriteMixin {
 
     @Shadow protected abstract float atlasSize();
 
-    @Inject(method = "uvShrinkRatio", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "uvShrinkRatio", at = @At("RETURN"), cancellable = true)
     public void cancelShrink(CallbackInfoReturnable<Float> cir) {
         var newS = ModelFix.getShrinkRatio(this.atlas(), 4.0F / this.atlasSize(), cir.getReturnValueF());
         if(newS != -1) cir.setReturnValue(newS);

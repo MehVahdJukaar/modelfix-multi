@@ -31,8 +31,10 @@ public class ModelFixImpl {
     public ModelFixImpl() {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
-        RECESS = builder.comment("quad x/y offset. simply put moves the quad toward the center of the item. Use to hide gaps").defineInRange("quad_recess", 0.007d, -0.1d,0.1d);
-        EXPANSION = builder.comment("quad expansion increment. enlarges each quad. Use to hide gaps").defineInRange("quad_expansion", 0.008d, -0.1d,0.1d);
+        RECESS = builder.comment("quad x/y offset. simply put moves the quad toward the center of the item. Use to hide gaps")
+                .defineInRange("quad_recess", 0.007d, -0.1d,0.1d);
+        EXPANSION = builder.comment("quad expansion increment. enlarges each quad. Use to hide gaps. Keep both as close to 0 as possible")
+                .defineInRange("quad_expansion", 0.008d, -0.1d,0.1d);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, builder.build());
     }
