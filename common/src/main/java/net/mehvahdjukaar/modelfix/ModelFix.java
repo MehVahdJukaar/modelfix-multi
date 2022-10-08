@@ -1,6 +1,7 @@
 package net.mehvahdjukaar.modelfix;
 
 import com.mojang.math.Vector3f;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.injectables.targets.ArchitecturyTarget;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BlockElement;
@@ -15,7 +16,6 @@ import java.util.List;
 public class ModelFix {
     public static final String MOD_ID = "modelfix";
 
-    private static boolean FORGE = ArchitecturyTarget.getCurrentTarget().equals("forge");
     private static final ResourceLocation BLOCK_ATLAS = new ResourceLocation("textures/atlas/blocks.png");
     //who needs anti atlas bleeding when it doesn't occur even on mipmap 4 high render distance lol
     public static float getShrinkRatio(TextureAtlas atlas, float defaultValue, float returnValue) {
@@ -25,12 +25,13 @@ public class ModelFix {
         return -1;
     }
 
-    public static float getRecess() {
-        return FORGE ? 0.007f : 0.01f;// 0.0045f;//0.019f;//0.0055f;
+    @ExpectPlatform
+    public static double getRecess() {
+        throw new AssertionError();
     }
-
-    public static float getExpansion() {
-        return FORGE ? 0.007f : 0;//0.013f;//0.008f;//0.011f;
+    @ExpectPlatform
+    public static double getExpansion() {
+        throw new AssertionError();
     }
 
     public static void createOrExpandSpan(List<ItemModelGenerator.Span> listSpans, ItemModelGenerator.SpanFacing spanFacing,
@@ -60,8 +61,8 @@ public class ModelFix {
     }
 
     public static void enlargeFaces(CallbackInfoReturnable<List<BlockElement>> cir) {
-        float inc = ModelFix.getRecess();
-        float inc2 = ModelFix.getExpansion();
+        float inc = (float) ModelFix.getRecess();
+        float inc2 = (float) ModelFix.getExpansion();
         for (var e : cir.getReturnValue()) {
             Vector3f from = e.from;
             Vector3f to = e.to;
