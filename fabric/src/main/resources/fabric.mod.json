@@ -15,7 +15,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.mehvahdjukaar.modelfix.fabric.ModelFixFabric"
+      "net.mehvahdjukaar.modelfix.fabric.ModelFixImpl"
     ]
   },
   "mixins": [
