@@ -3,6 +3,7 @@ package net.mehvahdjukaar.modelfix.mixins;
 import net.mehvahdjukaar.modelfix.ModelFix;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
+import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -15,11 +16,9 @@ import java.util.List;
 
 @Mixin(ItemModelGenerator.class)
 public abstract class ItemModelMixin {
-    @Shadow
-    protected abstract boolean isTransparent(TextureAtlasSprite sprite, int frameIndex, int pixelX, int pixelY, int spiteWidth, int spriteHeight);
 
     @Inject(method = "createSideElements", at = @At("RETURN"))
-    public void increaseSide(TextureAtlasSprite sprite, String texture, int tintIndex,
+    public void increaseSide(SpriteContents spriteContents, String string, int tintIndex,
                              CallbackInfoReturnable<List<BlockElement>> cir) {
         ModelFix.enlargeFaces(cir);
     }

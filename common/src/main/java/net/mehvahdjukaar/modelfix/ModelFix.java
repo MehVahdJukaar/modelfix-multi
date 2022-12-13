@@ -1,13 +1,11 @@
 package net.mehvahdjukaar.modelfix;
 
-import com.mojang.math.Vector3f;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.injectables.targets.ArchitecturyTarget;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
@@ -16,9 +14,10 @@ public class ModelFix {
     public static final String MOD_ID = "modelfix";
 
     private static final ResourceLocation BLOCK_ATLAS = new ResourceLocation("textures/atlas/blocks.png");
+
     //who needs anti atlas bleeding when it doesn't occur even on mipmap 4 high render distance lol
-    public static float getShrinkRatio(TextureAtlas atlas, float defaultValue, float returnValue) {
-        if(atlas.location().equals(BLOCK_ATLAS) && defaultValue == returnValue) {
+    public static float getShrinkRatio(ResourceLocation atlasLocation, float defaultValue, float returnValue) {
+        if (atlasLocation.equals(BLOCK_ATLAS) && defaultValue == returnValue) {
             return 0.0f;
         }
         return -1;
@@ -28,6 +27,7 @@ public class ModelFix {
     public static double getRecess() {
         throw new AssertionError();
     }
+
     @ExpectPlatform
     public static double getExpansion() {
         throw new AssertionError();
