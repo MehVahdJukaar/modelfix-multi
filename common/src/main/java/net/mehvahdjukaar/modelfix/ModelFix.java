@@ -1,36 +1,78 @@
 package net.mehvahdjukaar.modelfix;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.mehvahdjukaar.modelfix.moonlight_configs.ConfigBuilder;
+import net.mehvahdjukaar.modelfix.moonlight_configs.ConfigSpec;
+import net.mehvahdjukaar.modelfix.moonlight_configs.ConfigType;
+import net.minecraft.Util;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ModelFix {
     public static final String MOD_ID = "modelfix";
 
+    public static final Logger LOGGER = LogManager.getLogger();
+
+    private static final boolean MAC_OS = Util.getPlatform() == Util.OS.OSX;
+
     private static final ResourceLocation BLOCK_ATLAS = new ResourceLocation("textures/atlas/blocks.png");
 
+    private static Supplier<Double> expansion;
+    private static Supplier<Double> indent;
+    private static Supplier<Double> shrinkMult = () -> 0d;
+    public static ConfigSpec config;
+
+    public static void init(boolean fabric) {
+        ConfigBuilder builder = ConfigBuilder.create(new ResourceLocation(MOD_ID, "client"), ConfigType.CLIENT);
+
+        builder.push("default");
+        var e = builder.comment("quad expansion increment. enlarges each quad. Use to hide gaps. Keep both as close to 0 as possible")
+                .define("item_quad_expansion", fabric ? 0.002 : 0.008d, -0.1d, 0.1d);
+        var i = builder.comment("quad x/y offset. simply put moves the quad toward the center of the item. Use to hide gaps")
+                .define("item_quad_indent", fabric ? 0.0001 : 0.007d, -0.1d, 0.1d);
+
+        builder.pop();
+        builder.push("mac_os").comment("It has been reported that some mac os systems are affected by atlass bleeding so the mod cant apply its main fix by removing atlas shrinking. Instead it can reduce it as much as possible by multiplying it by shrink_value_multiplier");
+        var me = builder.comment("quad expansion increment. enlarges each quad. Use to hide gaps. Keep both as close to 0 as possible")
+                .define("item_quad_expansion", 10 * (fabric ? 0.002 : 0.008d), -0.1d, 0.1d);
+        var mi = builder.comment("quad x/y offset. simply put moves the quad toward the center of the item. Use to hide gaps")
+                .define("item_quad_indent", 10 * (fabric ? 0.0001 : 0.007d), -0.1d, 0.1d);
+        var sm = builder.comment("set to 0 for non macos behavior")
+                .define("shrink_ratio_multiplier", 0.2, 0, 1);
+        builder.pop();
+
+        expansion = MAC_OS ? me : e;
+        indent = MAC_OS ? mi : i;
+        if (MAC_OS) shrinkMult = sm;
+
+        builder.onChange(()-> {
+            if(Minecraft.getInstance().getResourceManager()!=null) {
+                Minecraft.getInstance().reloadResourcePacks();
+            }
+        });
+
+       config = builder.buildAndRegister();
+    }
+
+
     //who needs anti atlas bleeding when it doesn't occur even on mipmap 4 high render distance lol
+    //apparently on mac os it does waaa
     public static float getShrinkRatio(ResourceLocation atlasLocation, float defaultValue, float returnValue) {
         if (atlasLocation.equals(BLOCK_ATLAS) && defaultValue == returnValue) {
-            return 0.0f;
+            return (float) (defaultValue * shrinkMult.get());
         }
         return -1;
-    }
-
-    @ExpectPlatform
-    public static double getRecess() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static double getExpansion() {
-        throw new AssertionError();
     }
 
     public static void createOrExpandSpan(List<ItemModelGenerator.Span> listSpans, ItemModelGenerator.SpanFacing spanFacing,
@@ -42,7 +84,7 @@ public class ModelFix {
                 int i = spanFacing.isHorizontal() ? pixelY : pixelX;
                 if (span2.getAnchor() != i) continue;
                 //skips faces with transparent pixels so we can enlarge safely
-                if (getExpansion() != 0 && span2.getMax() != (!spanFacing.isHorizontal() ? pixelY : pixelX) - 1)
+                if (expansion.get() != 0 && span2.getMax() != (!spanFacing.isHorizontal() ? pixelY : pixelX) - 1)
                     continue;
                 existingSpan = span2;
                 break;
@@ -60,8 +102,8 @@ public class ModelFix {
     }
 
     public static void enlargeFaces(CallbackInfoReturnable<List<BlockElement>> cir) {
-        float inc = (float) ModelFix.getRecess();
-        float inc2 = (float) ModelFix.getExpansion();
+        double inc =  indent.get();
+        double inc2 = expansion.get();
         for (var e : cir.getReturnValue()) {
             Vector3f from = e.from;
             Vector3f to = e.to;
@@ -91,4 +133,7 @@ public class ModelFix {
         }
     }
 
+    public static Screen makeScreen(Screen screen) {
+        return config.makeScreen(screen);
+    }
 }
