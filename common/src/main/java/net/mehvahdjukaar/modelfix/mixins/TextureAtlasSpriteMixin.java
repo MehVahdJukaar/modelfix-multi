@@ -1,6 +1,8 @@
 package net.mehvahdjukaar.modelfix.mixins;
 
 import net.mehvahdjukaar.modelfix.ModelFix;
+import net.mehvahdjukaar.modelfix.ModelFixGeom;
+import net.mehvahdjukaar.modelfix.PlatStuff;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -23,8 +25,10 @@ public abstract class TextureAtlasSpriteMixin {
 
     @Inject(method = "uvShrinkRatio", at = @At("RETURN"), cancellable = true)
     public void cancelShrink(CallbackInfoReturnable<Float> cir) {
-        var newS = ModelFix.getShrinkRatio(this.atlasLocation(), 4.0F / this.atlasSize(), cir.getReturnValueF());
-        if(newS != -1) cir.setReturnValue(newS);
+        if(PlatStuff.isModStateValid()) {
+            var newS = ModelFixGeom.getShrinkRatio(this.atlasLocation(), 4.0F / this.atlasSize(), cir.getReturnValueF());
+            if (newS != -1) cir.setReturnValue(newS);
+        }
     }
 
 

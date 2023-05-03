@@ -20,6 +20,7 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/model-gap-fix" #optiona
 issueTrackerURL="https://www.curseforge.com/minecraft/mc-mods/model-gap-fix/issues" #optional
 itemIcon="minecraft:fishing_hook" #catalogue icon
 
+displayTest="IGNORE_ALL_VERSION"
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.modelfix]] #optional

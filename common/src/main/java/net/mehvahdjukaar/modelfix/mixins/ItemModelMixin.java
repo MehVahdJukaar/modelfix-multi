@@ -1,13 +1,13 @@
 package net.mehvahdjukaar.modelfix.mixins;
 
-import net.mehvahdjukaar.modelfix.ModelFix;
+import net.mehvahdjukaar.modelfix.ModelFixGeom;
+import net.mehvahdjukaar.modelfix.PlatStuff;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.client.renderer.texture.SpriteContents;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -20,7 +20,7 @@ public abstract class ItemModelMixin {
     @Inject(method = "createSideElements", at = @At("RETURN"))
     public void increaseSide(SpriteContents spriteContents, String string, int tintIndex,
                              CallbackInfoReturnable<List<BlockElement>> cir) {
-        ModelFix.enlargeFaces(cir);
+       if(PlatStuff.isModStateValid()) ModelFixGeom.enlargeFaces(cir);
     }
 
     /**
@@ -29,7 +29,7 @@ public abstract class ItemModelMixin {
      */
     @Overwrite
     private void createOrExpandSpan(List<ItemModelGenerator.Span> listSpans, ItemModelGenerator.SpanFacing spanFacing, int pixelX, int pixelY) {
-        ModelFix.createOrExpandSpan(listSpans, spanFacing, pixelX, pixelY);
+       if(PlatStuff.isModStateValid())  ModelFixGeom.createOrExpandSpan(listSpans, spanFacing, pixelX, pixelY);
     }
 
 
