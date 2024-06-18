@@ -142,6 +142,11 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    modImplementation("curse.maven:architectury-api-419699:4663010")
+    modImplementation("curse.maven:simply-swords-659887:5116912")
+    modImplementation("curse.maven:cloth-config-348521:4973441")
+
+
 
     // Deobfuscate each dev mod for runtime
     dev_mods.each {
