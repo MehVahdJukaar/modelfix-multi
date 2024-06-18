@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 architectury {
@@ -48,25 +48,6 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version, "mod_id": rootProject.mod_id
     }
-}
-
-
-shadowJar {
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
-}
-
-remapJar {
-    injectAccessWidener = true
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    classifier "fabric"
-}
-
-jar {
-    classifier "dev"
 }
 
 sourcesJar {
