@@ -27,7 +27,7 @@ public class ModelFix {
 
     public static void init(boolean fabric) {
 
-        ConfigBuilder builder = ConfigBuilder.create(new ResourceLocation(MOD_ID, "client"), ConfigType.CLIENT);
+        ConfigBuilder builder = ConfigBuilder.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "client"), ConfigType.CLIENT);
 
         builder.push("default");
         var e = builder.comment("quad expansion increment. enlarges each quad. Use to hide gaps. Keep both as close to 0 as possible")

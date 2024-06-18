@@ -12,7 +12,7 @@ import static net.mehvahdjukaar.modelfix.ModelFix.*;
 
 public class ModelFixGeom {
 
-    private static final ResourceLocation BLOCK_ATLAS = new ResourceLocation("textures/atlas/blocks.png");
+    private static final ResourceLocation BLOCK_ATLAS = ResourceLocation.parse("textures/atlas/blocks.png");
 
     //who needs anti atlas bleeding when it doesn't occur even on mipmap 4 high render distance lol
     //apparently on mac os it does waaa
