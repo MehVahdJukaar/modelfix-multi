@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.function.Supplier;
 
+// I hate this mod
 public class ModelFix {
     public static final String MOD_ID = "modelfix";
 
@@ -30,17 +31,20 @@ public class ModelFix {
         ConfigBuilder builder = ConfigBuilder.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "client"), ConfigType.CLIENT);
 
         builder.push("default");
-        var e = builder.comment("quad expansion increment. enlarges each quad. Use to hide gaps. Keep both as close to 0 as possible")
-                .define("item_quad_expansion", fabric ? 0.002 : 0.008d, -0.1d, 0.1d);
+        var e = builder.comment("quad expansion increment. enlarges each quad. Use to hide gaps. " +
+                        "Keep both as close to 0 as possible. Note that increasing it to non 0 will slightly increase the amount of quads per item model. Could be an issue with HD texture packs." +
+                        "Try these values: 0.002 or 0.008")
+                .define("item_quads_expansion", fabric ? 0 : 0, -0.1d, 0.1d);
         var i = builder.comment("quad x/y offset. simply put moves the quad toward the center of the item. Use to hide gaps")
-                .define("item_quad_indent", fabric ? 0.0001 : 0.007d, -0.1d, 0.1d);
+                .define("item_quads_indent", fabric ? 0.0001 : 0.007d, -0.1d, 0.1d);
 
         builder.pop();
-        builder.push("mac_os").comment("It has been reported that some mac os systems are affected by atlass bleeding so the mod cant apply its main fix by removing atlas shrinking. Instead it can reduce it as much as possible by multiplying it by shrink_value_multiplier");
-        var me = builder.comment("quad expansion increment. enlarges each quad. Use to hide gaps. Keep both as close to 0 as possible")
-                .define("item_quad_expansion", 0.04d, -0.1d, 0.1d);
+        builder.push("mac_os").comment("It has been reported that some mac os systems are affected by atlas bleeding so the mod cant apply its main fix by removing atlas shrinking. Instead it can reduce it as much as possible by multiplying it by shrink_value_multiplier");
+        var me = builder.comment("quad expansion increment. enlarges each quad. Use to hide gaps." +
+                        " Keep both as close to 0 as possible. Note that increasing it to non 0 will slightly increase the amount of quads per item model. Could be an issue with HD texture packs")
+                .define("item_quads_expansion", 0.0, -0.1d, 0.1d);
         var mi = builder.comment("quad x/y offset. simply put moves the quad toward the center of the item. Use to hide gaps")
-                .define("item_quad_indent", 0.0099d, -0.1d, 0.1d);
+                .define("item_quads_indent", 0.0099d, -0.1d, 0.1d);
         var sm = builder.comment("set to 0 for non macos behavior. 1 keeps vanilla behavior to prevent atlas bleeding")
                 .define("shrink_ratio_multiplier", 1d, 0, 1);
         builder.pop();

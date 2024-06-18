@@ -3,6 +3,9 @@ package net.mehvahdjukaar.modelfix.moonlight_configs;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BedItem;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.DoublePlantBlock;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -131,6 +134,7 @@ public abstract class ConfigBuilder {
             comments.put(currentKey, currentComment);
             this.currentComment = null;
             this.currentKey = null;
+            DoublePlantBlock
         }
     }
 

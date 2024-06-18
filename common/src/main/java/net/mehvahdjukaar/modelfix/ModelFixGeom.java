@@ -6,7 +6,9 @@ import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import static net.mehvahdjukaar.modelfix.ModelFix.*;
 
@@ -25,22 +27,22 @@ public class ModelFixGeom {
 
     public static void createOrExpandSpan(List<ItemModelGenerator.Span> listSpans, ItemModelGenerator.SpanFacing spanFacing,
                                           int pixelX, int pixelY) {
-        int length;
         ItemModelGenerator.Span existingSpan = null;
-        for (ItemModelGenerator.Span span2 : listSpans) {
-            if (span2.getFacing() == spanFacing) {
+        for (ItemModelGenerator.Span span : listSpans) {
+            if (span.getFacing() == spanFacing) {
                 int i = spanFacing.isHorizontal() ? pixelY : pixelX;
-                if (span2.getAnchor() != i) continue;
-                //skips faces with transparent pixels so we can enlarge safely
-                if (expansion.get() != 0 && span2.getMax() != (!spanFacing.isHorizontal() ? pixelY : pixelX) - 1)
-                    continue;
-                existingSpan = span2;
-                break;
+                if (span.getAnchor() == i) {
+                    //skips faces with transparent pixels so we can enlarge safely
+                    if (expansion.get() != 0 && span.getMax() != (!spanFacing.isHorizontal() ? pixelY : pixelX) - 1)
+                        continue;
+                    existingSpan = span;
+                    break;
+                }
             }
         }
 
 
-        length = spanFacing.isHorizontal() ? pixelX : pixelY;
+        int length = spanFacing.isHorizontal() ? pixelX : pixelY;
         if (existingSpan == null) {
             int newStart = spanFacing.isHorizontal() ? pixelY : pixelX;
             listSpans.add(new ItemModelGenerator.Span(spanFacing, length, newStart));
@@ -48,6 +50,7 @@ public class ModelFixGeom {
             existingSpan.expand(length);
         }
     }
+
 
     public static void enlargeFaces(CallbackInfoReturnable<List<BlockElement>> cir) {
         double inc = indent.get();
