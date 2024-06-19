@@ -1,24 +1,22 @@
 {
   "schemaVersion": 1,
-  "id": "modelfix",
-  "version": "${version}",
-  "name": "Model Gap Fix",
-  "description": "Fixes those annoying gaps that appear in item and block models",
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
-    "Mehvahdjukaar"
+    "${mod_authors}"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/model-gap-fix"
+    "homepage": "${mod_homepage}",
+    "sources": "${mod_github}"
   },
-  "license": "GPL-3",
+  "license": "${mod_license}",
   "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
       "net.mehvahdjukaar.modelfix.fabric.ModelFixFabric"
-    ],
-    "modmenu": [
-      "net.mehvahdjukaar.modelfix.fabric.ModMenuCompat"
     ]
   },
   "mixins": [
@@ -26,6 +24,9 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.21"
+    "minecraft": ">=${minecraft_min_version} <${minecraft_max_version}"
+  },
+  "breaks": {
+    "slotify": "*"
   }
 }

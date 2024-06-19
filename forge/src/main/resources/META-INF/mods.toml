@@ -1,44 +1,32 @@
 
-modLoader="javafml" #mandatory
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
 
-loaderVersion="[38,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license = "${mod_license}"
+issueTrackerURL = "${mod_github}/issues"
 
-license="GPL-3"
-[[mods]] #mandatory
-# The modid of the mod
-modId="modelfix" #mandatory
-version = "${version}"
-displayName="Model Gap Fix" #mandatory
-logoFile="icon.png" #optional
-credits="MehVahdJukaar" #optional
-authors="MehVahdJukaar" #optional
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+logoFile = "icon.png"
+authors = "${mod_authors}"
+credits = "${mod_credits}"
+description = '''${mod_description}'''
+modUrl = "${mod_homepage}"
+itemIcon="minecraft:brush" #catalogue icon
 
-description='''
-Fixes those annoying gaps that appear in item and block models
-'''
-displayURL="https://www.curseforge.com/minecraft/mc-mods/model-gap-fix" #optional
-issueTrackerURL="https://www.curseforge.com/minecraft/mc-mods/model-gap-fix/issues" #optional
-itemIcon="minecraft:fishing_hook" #catalogue icon
+[[dependencies.${mod_version}]]
+    modId = "neoforge"
+    mandatory = true
+    versionRange = "${neo_version_range}"
+    ordering = "NONE"
+    side = "CLIENT"
 
-displayTest="IGNORE_ALL_VERSION"
+[[dependencies.${mod_version}]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "[${minecraft_min_version},${minecraft_max_version})"
+    ordering = "NONE"
+    side = "CLIENT"
 
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.modelfix]] #optional
-    # the modid of the dependency
-    modId="forge" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
-    # The version range of the dependency
-    versionRange="[38,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
-    ordering="NONE"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
-    side="CLIENT"
-# Here's another dependency
-[[dependencies.modelfix]]
-    modId="minecraft"
-    mandatory=true
-# This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.17,)"
-    ordering="NONE"
-    side="CLIENT"

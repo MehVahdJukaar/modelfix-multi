@@ -42,7 +42,7 @@ subprojects {
             uploadFile = tasks.remapJar
             gameVersions = [minecraft_version]
             if (modLoader == "forge") {
-                loaders = ["neoforge", "forge"]
+                loaders = ["neoforge"]
             } else loaders = [modLoader]
             changelog = changelogText
 
@@ -127,11 +127,12 @@ allprojects {
             url = "https://api.modrinth.com/maven"
         }
 
+
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 21
     }
 
     java {

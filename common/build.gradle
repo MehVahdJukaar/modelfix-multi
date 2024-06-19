@@ -1,5 +1,8 @@
 architectury {
-    common(rootProject.enabled_platforms.split(","))
+    common(enabled_platforms.split(",")) {
+        // This means map neoforge to forge
+        it.platformPackage "neoforge", "forge"
+    }
 }
 
 loom {
@@ -9,8 +12,7 @@ loom {
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
 }
 
 publishing {
