@@ -22,7 +22,7 @@
     ]
   },
   "mixins": [
-    "modelfix.mixins.json"
+    "${mod_id}.mixins.json"
   ],
   "depends": {
     "fabric": "*",
