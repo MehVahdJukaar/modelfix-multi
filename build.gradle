@@ -7,7 +7,7 @@ plugins {
 }
 
 architectury {
-    minecraft = rootProject.minecraft_version
+    minecraft = minecraft_version
 }
 
 subprojects {
@@ -21,9 +21,9 @@ subprojects {
     }
 
     dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        minecraft "com.mojang:minecraft:${minecraft_version}"
         mappings loom.layered() {
-            it.parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}")
+            it.parchment("org.parchmentmc.data:parchment-${parchment_version}")
             it.officialMojangMappings {
                 setNameSyntheticMembers(false)
             }
@@ -40,8 +40,10 @@ subprojects {
         modrinth {
             projectId = rootProject.mod_id
             uploadFile = tasks.remapJar
-            gameVersions = [rootProject.minecraft_version]
-            loaders = [modLoader]
+            gameVersions = [minecraft_version]
+            if (modLoader == "forge") {
+                loaders = ["neoforge", "forge"]
+            } else loaders = [modLoader]
             changelog = changelogText
 
             if (modLoader == "fabric") {
@@ -59,12 +61,14 @@ subprojects {
         curseforge {
             apiKey = env.CURSEFORGE_TOKEN
             project {
-                id = rootProject.project_id
+                id = project_id
                 changelog = changelogText
                 releaseType = 'release'
-                addGameVersion rootProject.minecraft_version
-                addGameVersion rootProject.minecraft_version_2
-                addGameVersion modLoader.capitalize()
+                addGameVersion minecraft_version
+
+                if (modLoader == "forge") {
+                    addGameVersion("NeoForge")
+                } else addGameVersion modLoader.capitalize()
 
                 mainArtifact(tasks.remapJar)
 
@@ -84,9 +88,9 @@ allprojects {
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
-    archivesBaseName = rootProject.mod_id
-    version = rootProject.mod_version
-    group = rootProject.maven_group
+    archivesBaseName = mod_id
+    version = mod_version
+    group = mod_group_id
 
 
     repositories {
@@ -106,6 +110,21 @@ allprojects {
 
         maven {
             url "https://maven.firstdarkdev.xyz/snapshots"
+        }
+
+        maven {
+            name = 'Ladysnake Mods'
+            url = 'https://maven.ladysnake.org/releases'
+        }
+
+        maven { url 'https://jitpack.io' }
+
+        maven {
+            url = 'https://maven.neoforged.net'
+        }
+
+        maven {
+            url = "https://api.modrinth.com/maven"
         }
 
     }

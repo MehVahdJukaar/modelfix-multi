@@ -134,7 +134,6 @@ public abstract class ConfigBuilder {
             comments.put(currentKey, currentComment);
             this.currentComment = null;
             this.currentKey = null;
-            DoublePlantBlock
         }
     }
 
