@@ -1,4 +1,4 @@
-plugins {
+pugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
@@ -43,7 +43,6 @@ processResources {
 
             neo_version          : neo_version,
             neo_version_range    : neo_version_range,
-            loader_version_range : loader_version_range,
     ]
     // setting them as input
     inputs.properties replaceProperties

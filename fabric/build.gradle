@@ -26,8 +26,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    modImplementation("curse.maven:yacl-667299:5424169")
-    modImplementation("curse.maven:modmenu-308702:5441816")
+    modCompileOnly("curse.maven:yacl-667299:5424169")
+    modCompileOnly("curse.maven:modmenu-308702:5441816")
 
 }
 
