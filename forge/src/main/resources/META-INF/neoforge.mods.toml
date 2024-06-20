@@ -1,6 +1,6 @@
 
 modLoader = "javafml"
-loaderVersion = "${loader_version_range}"
+loaderVersion = "${neo_version_range}"
 
 license = "${mod_license}"
 issueTrackerURL = "${mod_github}/issues"

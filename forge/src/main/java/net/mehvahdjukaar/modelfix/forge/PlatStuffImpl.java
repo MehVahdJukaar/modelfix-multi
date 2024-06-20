@@ -1,6 +1,5 @@
 package net.mehvahdjukaar.modelfix.forge;
 
-
 import net.neoforged.fml.ModLoader;
 
 public class PlatStuffImpl {
