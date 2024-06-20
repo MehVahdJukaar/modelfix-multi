@@ -9,19 +9,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -30,20 +29,18 @@ import java.nio.file.Path;
 
 public class ConfigSpecWrapper extends ConfigSpec {
 
-    private final ForgeConfigSpec spec;
+    private final ModConfigSpec spec;
 
     private final ModConfig modConfig;
 
-    public ConfigSpecWrapper(ResourceLocation name, ForgeConfigSpec spec, ConfigType type, boolean synced, @javax.annotation.Nullable Runnable onChange) {
+    public ConfigSpecWrapper(ResourceLocation name, ModConfigSpec spec, ConfigType type, boolean synced, @javax.annotation.Nullable Runnable onChange) {
         super(name, FMLPaths.CONFIGDIR.get(), type, synced, onChange);
         this.spec = spec;
 
-        var bus = FMLJavaModLoadingContext.get().getModEventBus();
-        if (onChange != null || this.isSynced()) bus.addListener(this::onConfigChange);
         if (this.isSynced()) {
 
-            MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
-            MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedOut);
+            NeoForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
+            NeoForge.EVENT_BUS.addListener(this::onPlayerLoggedOut);
         }
 
         ModConfig.Type t = this.getConfigType() == ConfigType.COMMON ? ModConfig.Type.COMMON : ModConfig.Type.CLIENT;
@@ -90,7 +87,7 @@ public class ConfigSpecWrapper extends ConfigSpec {
         }
     }
 
-    public ForgeConfigSpec getSpec() {
+    public ModConfigSpec getSpec() {
         return spec;
     }
 
@@ -114,8 +111,8 @@ public class ConfigSpecWrapper extends ConfigSpec {
     public Screen makeScreen(Screen parent, @Nullable ResourceLocation background) {
         var container = ModList.get().getModContainerById(this.getModId());
         if (container.isPresent()) {
-            var factory = container.get().getCustomExtension(ConfigScreenHandler.ConfigScreenFactory.class);
-            if (factory.isPresent()) return factory.get().screenFunction().apply(Minecraft.getInstance(), parent);
+            var factory = container.get().getCustomExtension(IConfigScreenFactory.class);
+            if (factory.isPresent()) return factory.get().createScreen(Minecraft.getInstance(), parent);
         }
         return null;
     }
@@ -123,7 +120,7 @@ public class ConfigSpecWrapper extends ConfigSpec {
     @Override
     public boolean hasConfigScreen() {
         return ModList.get().getModContainerById(this.getModId())
-                .map(container -> container.getCustomExtension(ConfigScreenHandler.ConfigScreenFactory.class)
+                .map(container -> container.getCustomExtension(IConfigScreenFactory.class)
                         .isPresent()).orElse(false);
     }
 

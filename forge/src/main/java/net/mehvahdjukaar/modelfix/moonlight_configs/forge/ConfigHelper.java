@@ -1,9 +1,10 @@
 package net.mehvahdjukaar.modelfix.moonlight_configs.forge;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
+
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ConfigHelper {
 
@@ -15,7 +16,7 @@ public class ConfigHelper {
      * @param addToMod   if true it will add the config file to the mod container aswell
      * @return created mod config. Used for tracking and events
      */
-    public static ModConfig addAndLoadConfigFile(ForgeConfigSpec targetSpec, String fileName, boolean addToMod) {
+    public static ModConfig addAndLoadConfigFile(ModConfigSpec targetSpec, String fileName, boolean addToMod) {
        // loadConfigFile(fileName, targetSpec);
 
         ModContainer modContainer = ModLoadingContext.get().getActiveContainer();

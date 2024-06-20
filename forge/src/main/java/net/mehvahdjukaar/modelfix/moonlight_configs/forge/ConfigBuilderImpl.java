@@ -3,7 +3,7 @@ package net.mehvahdjukaar.modelfix.moonlight_configs.forge;
 import net.mehvahdjukaar.modelfix.moonlight_configs.ConfigBuilder;
 import net.mehvahdjukaar.modelfix.moonlight_configs.ConfigType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -15,13 +15,13 @@ public class ConfigBuilderImpl extends ConfigBuilder {
         return new ConfigBuilderImpl(name, type);
     }
 
-    private final ForgeConfigSpec.Builder builder;
+    private final ModConfigSpec.Builder builder;
 
     private String cat = null;
 
     public ConfigBuilderImpl(ResourceLocation name, ConfigType type) {
         super(name, type);
-        this.builder = new ForgeConfigSpec.Builder();
+        this.builder = new ModConfigSpec.Builder();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ConfigBuilderImpl extends ConfigBuilder {
     @Override
     public Supplier<String> define(String name, String defaultValue, Predicate<Object> validator) {
         maybeAddTranslationString(name);
-        ForgeConfigSpec.ConfigValue<String> stringConfig = builder.define(name, (String) defaultValue, validator);
+        ModConfigSpec.ConfigValue<String> stringConfig = builder.define(name, (String) defaultValue, validator);
         return stringConfig;
     }
 
