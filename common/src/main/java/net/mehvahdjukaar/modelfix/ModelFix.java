@@ -55,10 +55,10 @@ public class ModelFix {
 
         builder.onChange(() -> {
             Minecraft mc = Minecraft.getInstance();
-            if (mc == null) return;
-            if (mc.level != null && mc.getResourceManager() != null) {
-                mc.reloadResourcePacks();
+            if (mc == null || mc.level == null || mc.getResourceManager() == null) {
+                return;
             }
+            mc.reloadResourcePacks();
         });
 
         config = builder.build();
