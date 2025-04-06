@@ -1,7 +1,5 @@
 package net.mehvahdjukaar.modelfix.moonlight_configs;
 
-import com.google.gson.JsonElement;
-import com.mojang.serialization.Codec;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

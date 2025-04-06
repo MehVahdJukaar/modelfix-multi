@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class ItemModelMixin {
 
     @ModifyReturnValue(method = "createSideElements", at = @At("RETURN"))
-    public List<BlockElement> increaseSide(List<BlockElement> original) {
+    private static List<BlockElement> increaseSide(List<BlockElement> original) {
         if (PlatStuff.isModStateValid()) ModelFixGeom.enlargeFaces(original);
         return original;
     }
@@ -25,7 +25,7 @@ public abstract class ItemModelMixin {
      * @reason fixing item models gaps
      */
     @Overwrite
-    private void createOrExpandSpan(List<ItemModelGenerator.Span> listSpans, ItemModelGenerator.SpanFacing spanFacing, int pixelX, int pixelY) {
+    private static void createOrExpandSpan(List<ItemModelGenerator.Span> listSpans, ItemModelGenerator.SpanFacing spanFacing, int pixelX, int pixelY) {
         if (PlatStuff.isModStateValid()){
             ModelFixGeom.createOrExpandSpan(listSpans, spanFacing, pixelX, pixelY);
         }
