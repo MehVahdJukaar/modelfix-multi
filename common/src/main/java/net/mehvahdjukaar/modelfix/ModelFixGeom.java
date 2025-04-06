@@ -3,13 +3,9 @@ package net.mehvahdjukaar.modelfix;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.animal.PolarBear;
 import org.joml.Vector3f;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import static net.mehvahdjukaar.modelfix.ModelFix.*;
 
@@ -58,10 +54,10 @@ public class ModelFixGeom {
         double inc = indent.get();
         double inc2 = expansion.get();
         for (var e : original) {
-            Vector3f from = e.from;
-            Vector3f to = e.to;
+            Vector3f from = (Vector3f) e.from();
+            Vector3f to = (Vector3f) e.to();
 
-            var set = e.faces.keySet();
+            var set = e.faces().keySet();
             if (set.size() == 1) {
                 var dir = set.stream().findAny().get();
                 switch (dir) {
