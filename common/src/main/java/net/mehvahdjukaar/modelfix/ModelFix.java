@@ -55,7 +55,7 @@ public class ModelFix {
 
         builder.onChange(() -> {
             Minecraft mc = Minecraft.getInstance();
-            if (mc.level != null && mc.getResourceManager() != null) {
+            if (mc != null && mc.level != null && mc.getResourceManager() != null) {
                 mc.reloadResourcePacks();
             }
         });
