@@ -27,7 +27,7 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     modCompileOnly("maven.modrinth:yacl:${rootProject.yacl_version}")
-    modImplementation("maven.modrinth:modmenu:${rootProject.modmenu_version}")
+    modCompileOnly("maven.modrinth:modmenu:${rootProject.modmenu_version}")
 
 }
 
